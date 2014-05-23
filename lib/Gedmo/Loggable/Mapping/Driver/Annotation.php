@@ -56,7 +56,11 @@ class Annotation extends AnnotationDriver
             }
             // versioned property
             if ($versioned = $this->reader->getPropertyAnnotation($property, self::VERSIONED)) {
-                $exm->map($property->getName());
+				if (!is_null($versioned->field)) {
+					$exm->map($versioned->field);
+				}else{
+					$exm->map($property->getName());
+				}
             }
         }
     }

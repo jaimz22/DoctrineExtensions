@@ -15,6 +15,6 @@ use Doctrine\Common\Annotations\Annotation;
  */
 final class Versioned extends Annotation
 {
-
+	public $field = null;
 }
 
