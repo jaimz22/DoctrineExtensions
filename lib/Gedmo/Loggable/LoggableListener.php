@@ -43,6 +43,8 @@ class LoggableListener extends MappedEventSubscriber
      */
     protected $username;
 
+	static protected $user;
+
     /**
      * List of log entries which do not have the foreign
      * key generated yet - MySQL case. These entries
@@ -78,6 +80,11 @@ class LoggableListener extends MappedEventSubscriber
             throw new InvalidArgumentException("Username must be a string, or object should have method: getUsername");
         }
     }
+
+	static public function setUser($user)
+	{
+		self::$user = $user;
+	}
 
     /**
      * {@inheritdoc}
@@ -204,6 +211,9 @@ class LoggableListener extends MappedEventSubscriber
 
             $logEntry->setAction($action);
             $logEntry->setUsername($this->username);
+			if (!is_null(self::$user) && method_exists($logEntry,'setUser')) {
+				$logEntry->setUser(self::$user);
+			}
             $logEntry->setObjectClass(OMH::getRootObjectClass($meta));
             $logEntry->setLoggedAt();
 
